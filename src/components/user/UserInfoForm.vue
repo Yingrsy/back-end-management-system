@@ -23,7 +23,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, toRaw } from 'vue'
 import type { FormRules } from 'element-plus'
 import { useStore } from 'vuex'
 import { editUser, addUser } from '@/api'
@@ -66,7 +66,12 @@ const operateFormLabel = [
     }
 ]
 function cancel() {
-    (myForm.value as unknown as any).resetFields()
+    form.id = ''
+    form.name = ''
+    form.age = ''
+    form.gender = ''
+    form.birth = ''
+    form.addr = ''
     store.commit('operateUserInfo/hideDialogForm')
 }
 
@@ -74,12 +79,11 @@ function confirm() {
     (myForm.value as unknown as any).validate((valid: boolean) => {
         if (valid) {
             if (store.state.operateUserInfo.formTitle === '新增用户') {
-                addUser(form).then(() => {
+                addUser(JSON.parse(JSON.stringify(toRaw(form)))).then(() => {
                     emit('getList')
                 })
             } else {
-                editUser(form).then(() => {
-                    console.log(form)
+                editUser(JSON.parse(JSON.stringify(toRaw(form)))).then(() => {
                     emit('getList')
                 })
             }
@@ -89,23 +93,23 @@ function confirm() {
 }
 
 const form = reactive({
+    id: '',
     name: '',
-    age: 0,
+    age: '',
     gender: '',
     birth: '',
     addr: ''
 })
 const store = useStore()
-watch(
-    () => store.state.operateUserInfo.formData,
-    (newVal) => {
-        form.name = newVal.name
-        form.age = newVal.age
-        form.gender = newVal.gender
-        form.birth = newVal.birth
-        form.addr = newVal.addr
-    }
-)
+function mySetDefault() {
+    form.id = store.state.operateUserInfo.formData.id
+    form.name = store.state.operateUserInfo.formData.name
+    form.age = store.state.operateUserInfo.formData.age
+    form.gender = store.state.operateUserInfo.formData.gender
+    form.birth = store.state.operateUserInfo.formData.birth
+    form.addr = store.state.operateUserInfo.formData.addr
+}
+defineExpose({ mySetDefault })
 const rules = reactive<FormRules>({
     name: [
         { required: true, message: '请输入姓名', trigger: 'blur' }

@@ -8,8 +8,8 @@
                 <el-header class="el-header">
                     <common-header />
                 </el-header>
-                <CommonTag />
-                <el-main>
+                <CommonTag style="z-index: 10;" />
+                <el-main class="elmain">
                     <router-view v-slot="{ Component }">
                         <keep-alive :include="store.getters['tab/activeComponents']">
                             <component :is="Component" />
@@ -32,9 +32,11 @@ const store = useStore()
 <style scoped lang="less">
 .el-aside {
     overflow: hidden;
+    min-height: 100vh;
 }
 
 .el-header {
     padding: 0;
+    height: 60px;
 }
 </style>

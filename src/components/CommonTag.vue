@@ -40,7 +40,12 @@ function handleClick(paths: any, tagPath: string) {
 <style scoped lang='less'>
 .commontag {
   display: flex;
-  margin: 20px 0 0 10px;
+  box-shadow: 0 5px 5px #ccc;
   user-select: none;
+  height: 50px;
+
+  .mx-1 {
+    margin: auto 0;
+  }
 }
 </style>

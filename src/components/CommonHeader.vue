@@ -8,14 +8,14 @@
             </el-breadcrumb>
         </div>
         <div class="right">
-            <el-dropdown>
+            <el-dropdown @command="logout">
                 <span class="el-dropdown-link">
                     <el-avatar :size="40" :src="userImg.avatarUrl" />
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item command="exit">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -27,6 +27,8 @@
 import { useStore } from 'vuex'
 import { ref, computed } from 'vue'
 import avatarUrl from '../uploads/userImg'
+import Cookie from 'js-cookie'
+import { useRouter } from 'vue-router'
 const userImg = ref({ avatarUrl })
 const store = useStore()
 function handleMenu() {
@@ -35,6 +37,14 @@ function handleMenu() {
 const tabList = computed(() => {
     return store.state.tab.tabList
 })
+const router = useRouter()
+function logout(command: string) {
+    if (command === 'exit') {
+        Cookie.remove('token')
+        Cookie.remove('menu')
+        router.push('/login')
+    }
+}
 </script>
 
 <style scoped lang='less'>

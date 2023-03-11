@@ -5,8 +5,8 @@ export const getData = () => {
     return http.get('/home/getData')
 }
 
-export const getUser = () => {
-    return http.get('/user/getUser')
+export const getUser = (data: any) => {
+    return http.get('/user/getUser', {params: data})
 }
 
 export const addUser = (data: any)=>{
@@ -19,4 +19,8 @@ export const editUser = (data: any)=>{
 
 export const delUser = (data: any)=>{
     return http.post('/user/del', data)
+}
+
+export const loginUser = (data: any)=>{
+    return http.post('/login', data)
 }

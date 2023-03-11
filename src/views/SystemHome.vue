@@ -1,18 +1,20 @@
 <template>
-    <el-row :gutter="20">
-        <el-col :span="8">
-            <user-info />
-            <goods-table :home-data="homeData" style="margin-top: 20px" />
-        </el-col>
-        <el-col :span="16">
-            <order-lists />
-            <goods-line-chart style="margin-top: 20px" :home-data="homeData" />
-            <div class="charts">
-                <goods-histogram class="goods-histogram" :home-data="homeData" />
-                <goods-pie-chart class="goods-pie-chart" :home-data="homeData" />
-            </div>
-        </el-col>
-    </el-row>
+    <div class="systemhome">
+        <el-row :gutter="20" class="elrow">
+            <el-col :span="8">
+                <user-info />
+                <goods-table :home-data="homeData" style="margin-top: 20px" />
+            </el-col>
+            <el-col :span="16">
+                <order-lists />
+                <goods-line-chart style="margin-top: 20px" :home-data="homeData" />
+                <div class="charts">
+                    <goods-histogram class="goods-histogram" :home-data="homeData" />
+                    <goods-pie-chart class="goods-pie-chart" :home-data="homeData" />
+                </div>
+            </el-col>
+        </el-row>
+    </div>
 </template>
 
 <script lang='ts' setup>
@@ -33,6 +35,14 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+.systemhome {
+    height: 100%;
+
+    .elrow {
+        height: 100%;
+    }
+}
+
 .charts {
     display: flex;
     margin-top: 20px;
